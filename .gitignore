@@ -8,3 +8,4 @@ build/
 # java
 *.class
 *.properties
+!template_general.properties
