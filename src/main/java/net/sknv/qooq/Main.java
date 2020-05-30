@@ -5,20 +5,23 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.sknv.qooq.cards.Blackjack;
 
 import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Main extends ListenerAdapter {
 
+    Blackjack bj;
+
     public static void main(String[] args) throws LoginException {
-        //https://discord.com/api/oauth2/authorize?client_id=714593234285756517&scope=bot&permissions=8
+        // Invite bot to server w/ admin permissions
+        // https://discord.com/api/oauth2/authorize?client_id=714593234285756517&scope=bot&permissions=8
         JDABuilder.createDefault(Utils.getToken()).addEventListeners(new Main()).build();
+    }
+
+    public Main() {
+        bj = new Blackjack();
     }
 
     @Override
@@ -32,13 +35,13 @@ public class Main extends ListenerAdapter {
 
     private void parse(Message msg) {
         String text = msg.getContentRaw();
-        String[] split = text.split(" ");
-        switch (split[1]) {
+        String[] params = text.split(" ");
+        switch (params[1]) {
             case "asd":
                 msg.getChannel().sendMessage("you said asd").queue();
                 break;
             case "bj":
-                msg.getChannel().sendMessage("you said bj").queue();
+                bj.bet(msg);
                 break;
             default:
                 msg.getChannel().sendMessage("command unknown").queue();
